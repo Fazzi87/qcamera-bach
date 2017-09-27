@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015-2017, The Linux Foundation. All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are
@@ -30,7 +30,7 @@
 #define LOG_TAG "QCameraDisplay"
 
 // Camera dependencies
-#include <cutils/properties.h>
+#include <properties.h>
 extern "C" {
 #include "mm_camera_dbg.h"
 }
@@ -248,6 +248,56 @@ QCameraDisplay::init()
     m_bInitDone = true;
 
 }
+
+/*===========================================================================
+ * FUNCTION   : startVsync
+ *
+ * DESCRIPTION: Start or stop the onVsync or onHotPlug callback.
+ *
+ * PARAMETERS : true to start callback or false to stop callback
+ *
+ * RETURN     : true in success, false in error case.
+ *==========================================================================*/
+bool
+QCameraDisplay::startVsync(bool bStart)
+{
+    if(!m_bInitDone || mDisplayEventReceiver == nullptr)
+    {
+        LOGE("ERROR: Display event callbacks is not registered");
+        return false;
+    }
+
+    if(bStart)
+    {
+        Return<Status> retVal = mDisplayEventReceiver->init(this /*setting callbacks*/ );
+        if(!retVal.isOk() || (Status::SUCCESS != static_cast<Status>(retVal)) )
+        {
+            LOGE("Failed to register display vsync callback");
+            return false;
+        }
+
+        retVal = mDisplayEventReceiver->setVsyncRate(1 /*send callback after this many events*/);
+        if(!retVal.isOk() || (Status::SUCCESS != static_cast<Status>(retVal)) )
+        {
+            LOGE("Failed to start vsync events");
+            return false;
+        }
+    }
+    else
+    {
+        Return<Status> retVal = mDisplayEventReceiver->setVsyncRate(0 /*send callback after this many events*/);
+        if(!retVal.isOk() || (Status::SUCCESS != static_cast<Status>(retVal)) )
+        {
+            LOGE("Failed to stop vsync events");
+            return false;
+        }
+    }
+    LOGI("Display sync event %s", (bStart)?"started":"stopped");
+
+    m_bSyncing = (bStart)?true:false;
+    return true; //sync rate is set
+}
+#endif //USE_DISPLAY_SERVICE
 
 /*===========================================================================
  * FUNCTION   : startVsync
