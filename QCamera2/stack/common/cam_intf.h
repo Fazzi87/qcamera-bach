@@ -778,7 +778,7 @@ typedef struct {
  *  ID from (cam_intf_metadata_type_t)                DATATYPE                     COUNT
  **************************************************************************************/
     /* common between HAL1 and HAL3 */
-    volatile char huawei_reserved00[16];
+    volatile char huawei_reserved00[8];
     INCLUDE(CAM_INTF_META_HISTOGRAM,                    cam_hist_stats_t,               1);
     INCLUDE(CAM_INTF_META_FACE_DETECTION,               cam_face_detection_data_t,      1);
     INCLUDE(CAM_INTF_META_FACE_RECOG,                   cam_face_recog_data_t,          1);
@@ -810,7 +810,8 @@ typedef struct {
     INCLUDE(CAM_INTF_BUF_DIVERT_INFO,                   cam_buf_divert_info_t,          1);
 
     /* Specific to HAL3 */
-    volatile char huawei_reserved01[8];
+    INCLUDE(CAM_INTF_META_HUAWEI_01,               	uint8_t,                     4);
+    INCLUDE(CAM_INTF_META_HUAWEI_02,               	uint8_t,                     4);
     INCLUDE(CAM_INTF_META_FRAME_NUMBER_VALID,           int32_t,                     1);
     INCLUDE(CAM_INTF_META_URGENT_FRAME_NUMBER_VALID,    int32_t,                     1);
     INCLUDE(CAM_INTF_META_FRAME_DROPPED,                cam_stream_ID_t,             1);
