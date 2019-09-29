@@ -2209,15 +2209,16 @@ typedef enum {
 
     /* Param for enabling instant aec*/
     CAM_INTF_PARM_INSTANT_AEC,
-    /* Param for tracking previous reprocessing activity */
-    CAM_INTF_META_REPROCESS_FLAGS,
+
+    CAM_INTF_META_HUAWEI_04,
 
     CAM_INTF_META_HUAWEI_01,
 
     CAM_INTF_META_HUAWEI_02,
 
     CAM_INTF_META_HUAWEI_03,
-
+    /* Param for tracking previous reprocessing activity */
+    CAM_INTF_META_REPROCESS_FLAGS,
     /* Param of cropping information for JPEG encoder */
     CAM_INTF_PARM_JPEG_ENCODE_CROP,
     /* Param of scaling information for JPEG encoder */
