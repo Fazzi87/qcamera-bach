@@ -1518,6 +1518,7 @@ typedef struct {
     int32_t est_snap_iso_value;
     uint32_t est_snap_luma;
     uint32_t est_snap_target;
+    volatile char huawei_reserved[72];
 } cam_3a_params_t;
 
 typedef struct {
@@ -1538,6 +1539,7 @@ typedef struct {
     int32_t cct_value;
     cam_awb_gain_t rgb_gains;
     cam_awb_ccm_update_t ccm_update;
+    volatile char huawei_reserved[16];
 } cam_awb_params_t;
 
 typedef struct {
@@ -1694,6 +1696,7 @@ typedef struct {
 typedef struct {
     uint32_t num_streams;
     uint32_t streamID[MAX_NUM_STREAMS];
+    volatile char huawei_reserved[32];
 } cam_stream_ID_t;
 
 /*CAC Message posted during pipeline*/
@@ -2107,6 +2110,10 @@ typedef enum {
     CAM_INTF_META_PROFILE_TONE_CURVE,
     CAM_INTF_META_NEUTRAL_COL_POINT, /* 170 */
 
+    /* Gain applied post raw captrue.
+       ISP digital gain */
+    CAM_INTF_META_ISP_SENSITIVITY,
+
     /* CAC */
     CAM_INTF_META_CAC_INFO,
     CAM_INTF_PARM_CAC,
@@ -2195,9 +2202,11 @@ typedef enum {
     CAM_INTF_META_TOUCH_AE_RESULT,
     /* Param for updating initial exposure index value*/
     CAM_INTF_PARM_INITIAL_EXPOSURE_INDEX,
-    /* Gain applied post raw captrue.
-       ISP digital gain */
-    CAM_INTF_META_ISP_SENSITIVITY,
+
+    CAM_INTF_META_HUAWEI_00,
+
+    CAM_INTF_META_FOCUS_DEPTH_INFO,
+
     /* Param for enabling instant aec*/
     CAM_INTF_PARM_INSTANT_AEC,
     /* Param for tracking previous reprocessing activity */
@@ -2213,7 +2222,6 @@ typedef enum {
     /* Number of streams and size of streams in
        current configuration for pic res*/
     CAM_INTF_META_STREAM_INFO_FOR_PIC_RES,
-    CAM_INTF_META_FOCUS_DEPTH_INFO,
     /*Focus value output from af core*/
     CAM_INTF_META_FOCUS_VALUE,
     /*Spot light detection result output from af core*/

@@ -599,7 +599,7 @@ typedef struct {
 } cam_stream_img_prop_t;
 
 typedef struct {
-    uint8_t enableStream; /*0 – stop and 1-start */
+    uint8_t enableStream; /*0 \96 stop and 1-start */
 } cam_request_frames;
 
 typedef struct {
@@ -767,6 +767,9 @@ typedef struct {
         uint8_t         is_reqd[CAM_CUSTOM_PARM_MAX];
     };
     custom_parm_data_t data;
+    volatile char huawei_reserved0[255];
+    volatile char huawei_reserved1[255];
+    volatile char huawei_reserved2[2];
 } custom_parm_buffer_t;
 
 
@@ -775,6 +778,7 @@ typedef struct {
  *  ID from (cam_intf_metadata_type_t)                DATATYPE                     COUNT
  **************************************************************************************/
     /* common between HAL1 and HAL3 */
+    volatile char huawei_reserved00[16];
     INCLUDE(CAM_INTF_META_HISTOGRAM,                    cam_hist_stats_t,               1);
     INCLUDE(CAM_INTF_META_FACE_DETECTION,               cam_face_detection_data_t,      1);
     INCLUDE(CAM_INTF_META_FACE_RECOG,                   cam_face_recog_data_t,          1);
@@ -796,6 +800,7 @@ typedef struct {
     INCLUDE(CAM_INTF_META_CURRENT_SCENE,                cam_scene_mode_type,            1);
     INCLUDE(CAM_INTF_META_AWB_INFO,                     cam_awb_params_t,               1);
     INCLUDE(CAM_INTF_META_FOCUS_POSITION,               cam_focus_pos_info_t,           1);
+    //volatile char huawei_reserved01[16];
     INCLUDE(CAM_INTF_META_CHROMATIX_LITE_ISP,           cam_chromatix_lite_isp_t,       1);
     INCLUDE(CAM_INTF_META_CHROMATIX_LITE_PP,            cam_chromatix_lite_pp_t,        1);
     INCLUDE(CAM_INTF_META_CHROMATIX_LITE_AE,            cam_chromatix_lite_ae_stats_t,  1);
@@ -805,6 +810,7 @@ typedef struct {
     INCLUDE(CAM_INTF_BUF_DIVERT_INFO,                   cam_buf_divert_info_t,          1);
 
     /* Specific to HAL3 */
+    volatile char huawei_reserved01[8];
     INCLUDE(CAM_INTF_META_FRAME_NUMBER_VALID,           int32_t,                     1);
     INCLUDE(CAM_INTF_META_URGENT_FRAME_NUMBER_VALID,    int32_t,                     1);
     INCLUDE(CAM_INTF_META_FRAME_DROPPED,                cam_stream_ID_t,             1);
@@ -959,6 +965,8 @@ typedef struct {
 
 
     /* HAL3 specific */
+    volatile char huawei_reserved02[255];
+    volatile char huawei_reserved03[17];
     INCLUDE(CAM_INTF_META_STREAM_INFO,                  cam_stream_size_info_t,      1);
     INCLUDE(CAM_INTF_META_AEC_MODE,                     uint32_t,                    1);
     INCLUDE(CAM_INTF_META_AEC_PRECAPTURE_TRIGGER,       cam_trigger_t,               1);
@@ -1006,7 +1014,8 @@ typedef struct {
     INCLUDE(CAM_INTF_PARM_MANUAL_CAPTURE_TYPE,          cam_manual_capture_type,     1);
     INCLUDE(CAM_INTF_AF_STATE_TRANSITION,               uint8_t,                     1);
     INCLUDE(CAM_INTF_PARM_INITIAL_EXPOSURE_INDEX,       uint32_t,                    1);
-    INCLUDE(CAM_INTF_PARM_INSTANT_AEC,                  uint8_t,                     1);
+    volatile char huawei_reserved04[28];
+    INCLUDE(CAM_INTF_PARM_INSTANT_AEC,                  uint8_t,                     8);
     INCLUDE(CAM_INTF_META_REPROCESS_FLAGS,              uint8_t,                     1);
     INCLUDE(CAM_INTF_PARM_JPEG_ENCODE_CROP,             cam_stream_crop_info_t,      1);
     INCLUDE(CAM_INTF_PARM_JPEG_SCALE_DIMENSION,         cam_dimension_t,             1);
